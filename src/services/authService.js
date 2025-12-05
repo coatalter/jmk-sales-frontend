@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = "http://localhost:5001"; // Sesuaikan port backend
+const API_URL = "https://jmk-sales-backend-production.up.railway.app";
 
 export const authenticate = async (email, password) => {
   try {
