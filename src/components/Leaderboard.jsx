@@ -18,7 +18,7 @@ export default function Leaderboard() {
     };
     
     load();
-    const interval = setInterval(load, 15000); // Refresh tiap 15 detik
+    const interval = setInterval(load, 15000); 
     return () => clearInterval(interval);
   }, []);
 
@@ -31,7 +31,8 @@ export default function Leaderboard() {
   };
 
   return (
-    <div className="card h-full flex flex-col relative overflow-hidden">
+    // PERBAIKAN DISINI: Tambahkan bg-white dan dark:bg-slate-800
+    <div className="card h-full flex flex-col relative overflow-hidden bg-white dark:bg-slate-800">
       {/* Header */}
       <div className="flex items-center justify-between mb-6 z-10 relative">
         <div>
@@ -76,7 +77,7 @@ export default function Leaderboard() {
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-white shadow-sm bg-gradient-to-br from-indigo-500 to-purple-600`}>
                   {leader.avatar}
                 </div>
-                {/* Online Indicator (Hiasan) */}
+                {/* Online Indicator */}
                 <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-white dark:border-slate-800 rounded-full"></div>
               </div>
 
@@ -100,7 +101,7 @@ export default function Leaderboard() {
         })}
       </div>
       
-      {/* Background decoration (optional) */}
+      {/* Background decoration */}
       <div className="absolute top-0 right-0 -mt-10 -mr-10 w-32 h-32 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none"></div>
     </div>
   );
