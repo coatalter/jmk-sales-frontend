@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Pastikan port sesuai dengan backend kamu
-const API_URL = "http://localhost:5001"; 
+const API_URL = "https://jmk-sales-backend-production.up.railway.app";
 
 // Helper untuk ambil token dari LocalStorage
 const getAuthToken = () => localStorage.getItem("auth_token");
