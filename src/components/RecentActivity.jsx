@@ -27,7 +27,8 @@ export default function RecentActivity() {
   const displayedLogs = logs.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
   return (
-    <div className="card h-full flex flex-col relative">
+    // PERBAIKAN DISINI: Tambahkan bg-white dan dark:bg-slate-800
+    <div className="card h-full flex flex-col relative bg-white dark:bg-slate-800">
       <div className="flex items-center justify-between mb-6">
         <h3 className="font-bold text-main">🕒 Riwayat Aktivitas</h3>
         <span className="text-xs text-muted bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md border border-theme">
