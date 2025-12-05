@@ -1,0 +1,253 @@
+@import "tailwindcss";
+
+/* =========================================
+   1. VARIABLES & THEME CONFIG
+   ========================================= */
+@layer base {
+  /* --- MODE TERANG (DEFAULT) --- */
+  :root {
+    --brand-primary: #4f46e5;
+    --brand-hover: #4338ca;
+
+    /* Backgrounds */
+    --bg-body: #f1f5f9;         /* Abu Muda Soft */
+    --bg-card: #ffffff;         /* Putih Murni */
+    --bg-sidebar: #ffffff;      /* Putih Murni */
+    --bg-input: #ffffff;        /* Putih */
+    --bg-hover: #f8fafc;        /* Slate-50 */
+    
+    /* Text (Kontras Tinggi) */
+    --text-main: #0f172a;       /* Hitam Slate (Jelas) */
+    --text-muted: #64748b;      /* Abu Tua (Jelas) */
+    --text-inverse: #ffffff;    /* Putih (untuk tombol) */
+    
+    /* Borders */
+    --border-color: #cbd5e1;    /* Slate-300 (Tegas) */
+  }
+
+  /* --- MODE GELAP (OVERRIDE) --- */
+  html.dark {
+    /* Backgrounds */
+    --bg-body: #0b1120;         /* Deep Blue Black */
+    --bg-card: #1e293b;         /* Slate-800 */
+    --bg-sidebar: #1e293b;      /* Slate-800 */
+    --bg-input: #111827;        /* Gray-900 (Input lebih gelap) */
+    --bg-hover: #334155;        /* Slate-700 */
+    
+    /* Text (Putih Terang) */
+    --text-main: #ffffff;       /* Putih Murni */
+    --text-muted: #cbd5e1;      /* Abu Terang */
+    --text-inverse: #ffffff;
+    
+    /* Borders */
+    --border-color: #334155;    /* Slate-700 */
+  }
+
+  html, body, #root { 
+    height: 100%; 
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  body {
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    @apply antialiased transition-colors duration-300;
+  }
+}
+
+/* =========================================
+   2. UTILITY CLASSES (Untuk Hapus Hardcode di JSX)
+   ========================================= */
+@layer components {
+  /* Gunakan class ini di JSX agar warna ikut tema otomatis */
+  .text-main { color: var(--text-main); }
+  .text-muted { color: var(--text-muted); }
+  .border-theme { border-color: var(--border-color); }
+
+  /* --- KARTU (CARD & KPI) --- */
+  .card, .kpi {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    
+    @apply rounded-xl p-6 shadow-sm;
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+  
+  .kpi { @apply flex flex-col justify-between h-full; }
+  .kpi:hover {
+    transform: translateY(-2px);
+    @apply border-indigo-500 shadow-md transition-transform duration-200;
+  }
+  .kpi-title { 
+    color: var(--text-muted);
+    @apply text-xs font-bold uppercase tracking-wider mb-2; 
+  }
+  .kpi-value { 
+    color: var(--text-main); 
+    @apply text-3xl font-extrabold tracking-tight mt-auto; 
+  }
+
+  /* --- SIDEBAR --- */
+  .layout-aside {
+    background-color: var(--bg-sidebar);
+    border-right: 1px solid var(--border-color);
+    color: var(--text-main);
+    @apply w-64 h-screen sticky top-0 p-6 flex flex-col z-20 transition-colors duration-300;
+  }
+  .layout-main { @apply flex-1 p-8 min-h-screen relative overflow-x-hidden; }
+
+  /* --- AVATAR --- */
+  .user-avatar {
+    @apply w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm text-indigo-800 shadow-sm ring-2 ring-white;
+    background: linear-gradient(135deg, #c7d2fe 0%, #a5b4fc 100%);
+  }
+  html.dark .user-avatar {
+    @apply ring-slate-700 text-indigo-100;
+    background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+  }
+
+  /* --- INPUTS, SELECT, TEXTAREA (FIX GLITCH & DOUBLE ARROW) --- */
+  .input-field, select, textarea {
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    
+    /* appearance-none PENTING untuk hapus panah bawaan browser */
+    @apply w-full rounded-lg px-4 py-3 text-sm shadow-sm transition-colors duration-200 appearance-none;
+  }
+  .input-field::placeholder, textarea::placeholder { 
+    color: var(--text-muted); opacity: 0.8;
+  }
+  .input-field:focus, select:focus, textarea:focus { 
+    @apply outline-none border-indigo-500 ring-4 ring-indigo-500/10; 
+  }
+  /* Fix icon dropdown di Dark Mode */
+  html.dark select { color-scheme: dark; }
+
+  /* --- BUTTONS --- */
+  .btn { @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg font-medium text-sm transition-all active:scale-[0.98]; }
+  
+  .btn-primary {
+    color: var(--text-inverse);
+    @apply shadow-md shadow-indigo-500/20;
+    background: linear-gradient(to bottom right, var(--brand-primary), var(--brand-hover));
+  }
+  .btn-primary:hover { filter: brightness(110%); @apply shadow-lg shadow-indigo-500/30; }
+  
+  .btn-ghost {
+    color: var(--text-muted);
+    @apply bg-transparent border border-transparent;
+  }
+  .btn-ghost:hover {
+    background-color: var(--bg-hover);
+    color: var(--text-main);
+    border-color: var(--border-color);
+  }
+  .btn-small { @apply text-xs px-3 py-1.5 rounded-md font-medium; }
+
+  /* --- TABLES --- */
+  .table-scroll { 
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    @apply overflow-x-auto rounded-xl shadow-sm;
+  }
+  table { @apply w-full text-left text-sm border-collapse; }
+  
+  thead { 
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--bg-hover);
+  }
+  thead th { 
+    color: var(--text-muted);
+    @apply px-6 py-4 font-semibold text-xs uppercase tracking-wider whitespace-nowrap;
+  }
+  
+  tbody tr { 
+    border-bottom: 1px solid var(--border-color);
+    @apply last:border-0 transition-colors; 
+  }
+  tbody tr:hover { background-color: var(--bg-hover); }
+  tbody td { 
+    color: var(--text-main); 
+    @apply px-6 py-4 align-middle; 
+  }
+
+  /* --- PAGINATION (FIX TOMBOL DOBEL) --- */
+  .pagination-container {
+    border-top: 1px solid var(--border-color);
+    @apply flex flex-col md:flex-row items-center justify-between gap-4 pt-6 mt-2;
+  }
+  
+  .pagination-btn {
+    background-color: var(--bg-input); 
+    border: 1px solid var(--border-color); 
+    color: var(--text-main);
+    @apply w-9 h-9 flex items-center justify-center rounded-lg text-sm font-medium transition-all hover:border-indigo-500 hover:text-indigo-600 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .pagination-current { 
+    /* Force warna solid biar gak dobel border */
+    background-color: var(--brand-primary) !important;
+    border: 1px solid var(--brand-primary) !important;
+    color: white !important;
+    @apply w-9 h-9 flex items-center justify-center rounded-lg text-sm font-bold shadow-md z-10;
+  }
+
+  /* --- BADGES & PROGRESS BAR --- */
+  .badge-yes { 
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border shadow-sm;
+    background-color: rgba(16, 185, 129, 0.1); color: rgb(5, 150, 105); border-color: rgba(16, 185, 129, 0.2);
+  }
+  html.dark .badge-yes { background-color: rgba(16, 185, 129, 0.2); color: #6ee7b7; border-color: rgba(16, 185, 129, 0.4); }
+
+  .badge-no { 
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border shadow-sm;
+    background-color: rgba(100, 116, 139, 0.1); color: var(--text-muted); border-color: var(--border-color);
+  }
+  html.dark .badge-no { background-color: rgba(255, 255, 255, 0.05); color: #cbd5e1; }
+  
+  .badge-unk { 
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border shadow-sm;
+    background-color: rgba(245, 158, 11, 0.1); color: rgb(217, 119, 6); border-color: rgba(245, 158, 11, 0.2);
+  }
+  html.dark .badge-unk { background-color: rgba(245, 158, 11, 0.2); color: #fcd34d; }
+
+  .progress-track { background-color: var(--bg-hover); @apply w-full rounded-full h-2 overflow-hidden shadow-inner; }
+  .progress-fill { background: linear-gradient(90deg, #6366f1, #8b5cf6); @apply h-full rounded-full transition-all duration-700 ease-out; }
+
+  /* --- MODAL --- */
+  .modal-backdrop {
+    position: fixed; inset: 0; z-index: 50;
+    background-color: rgba(0, 0, 0, 0.5);
+    @apply flex items-center justify-center p-4 backdrop-blur-sm transition-opacity;
+    animation: fadeIn 0.2s ease-out;
+  }
+  .modal-panel {
+    background-color: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main);
+    @apply rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden;
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-header { border-bottom: 1px solid var(--border-color); @apply p-6 flex justify-between items-start; }
+
+  /* --- CHOICES --- */
+  .contact-choice.border { 
+    background-color: var(--bg-input); border: 2px solid var(--border-color); color: var(--text-muted);
+    @apply flex-1 py-3 px-4 rounded-xl text-sm font-medium transition-all text-center focus:outline-none cursor-pointer hover:border-indigo-300;
+  }
+  html.dark .contact-choice.border:hover { border-color: #6366f1; color: #fff; }
+  
+  .contact-choice-yes { 
+    @apply flex-1 py-3 px-4 rounded-xl border-2 text-sm font-medium transition-all text-center focus:outline-none cursor-pointer border-emerald-500 bg-emerald-50 text-emerald-700 shadow-sm;
+  }
+  html.dark .contact-choice-yes { @apply bg-emerald-900/30 text-emerald-300 border-emerald-500; }
+  
+  .contact-choice-no { @apply flex-1 py-3 px-4 rounded-xl border-2 text-sm font-medium transition-all text-center focus:outline-none cursor-pointer border-slate-500 bg-slate-100 text-slate-700 shadow-sm; }
+  html.dark .contact-choice-no { @apply bg-slate-800 text-slate-300 border-slate-500; }
+  
+  .contact-choice-unk { @apply flex-1 py-3 px-4 rounded-xl border-2 text-sm font-medium transition-all text-center focus:outline-none cursor-pointer border-amber-400 bg-amber-50 text-amber-700 shadow-sm; }
+  html.dark .contact-choice-unk { @apply bg-amber-900/30 text-amber-300 border-amber-500; }
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(15px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
