@@ -3,7 +3,7 @@ import axios from "axios";
 import Layout from "./Layout";
 import { getAuthToken } from "../services/authService";
 
-const API_URL = "https://jmk-sales-backend-production.up.railway.app"
+const API_URL = "http://localhost:5001"; // Sesuaikan port
 
 export default function SuperAdminPanel() {
   const [users, setUsers] = useState([]);
@@ -61,6 +61,7 @@ export default function SuperAdminPanel() {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchUsers();
+    // eslint-disable-next-line no-unused-vars
     } catch (err) {
       alert("Gagal menghapus user.");
     }

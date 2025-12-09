@@ -6,6 +6,7 @@ import Pagination from "./Pagination";
 import SalesCharts from "./SalesCharts"; 
 import Leaderboard from "./Leaderboard";       
 import RecentActivity from "./RecentActivity"; 
+import LoadingScreen from "./LoadingScreen";
 
 // IMPORT SERVICE DATABASE
 import { fetchLeads, fetchLeadsStats } from "../services/leadsService";
@@ -16,6 +17,7 @@ export default function SalesDashboard() {
   const [jobFilter, setJobFilter] = useState("All");
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
+  // eslint-disable-next-line no-unused-vars
   const [stats, setStats] = useState(null);
 
   // Pagination state
@@ -46,13 +48,11 @@ export default function SalesDashboard() {
         education: row.education,
         phone: row.phone,
         loanStatus: row.loan === 'yes' ? 'Punya pinjaman' : 'Tidak punya pinjaman',
-        
+        status: row.status,
+
         // SCORE
         score: Number(row.probability || 0), 
         probability: Number(row.probability || 0),
-        
-        // STATUS MAPPING (Database String -> Frontend Boolean)
-        subscribed: row.status === 'closing' ? true : row.status === 'failed' ? false : null,
         
         // METADATA
         lastContacted: row.updated_at || null,
@@ -76,6 +76,7 @@ export default function SalesDashboard() {
   useEffect(() => {
     loadData();
   }, [loadData]);
+
 
   // --- 2. FILTERING & SORTING (Client Side) ---
   const jobs = useMemo(() => {
@@ -110,11 +111,7 @@ export default function SalesDashboard() {
   const convRate = customers.length > 0 ? `${Math.round((topLeads / customers.length) * 100)}%` : "0%";
 
   if (loading && customers.length === 0) {
-    return (
-      <Layout>
-        <div className="p-10 text-center text-muted animate-pulse">Mengambil data dari database...</div>
-      </Layout>
-    );
+    return <LoadingScreen />;
   }
 
   return (
@@ -159,10 +156,7 @@ export default function SalesDashboard() {
 
           <CustomerTable 
             customers={paginated} 
-            onContactSaved={() => {
-              // Refresh data dari DB setelah update status
-              loadData(); 
-            }} 
+            onContactSaved={loadData} 
           />
 
           <Pagination
@@ -176,7 +170,7 @@ export default function SalesDashboard() {
         </div>
 
         {/* Kolom Kanan: Filter */}
-        <aside className="card h-fit sticky top-6">
+        <aside className="card h-fit lg:sticky lg:top-6">
           <h3 className="font-bold text-main mb-6">Filter Data</h3>
           
           <div className="space-y-6">
