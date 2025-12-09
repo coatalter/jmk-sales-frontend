@@ -3,7 +3,7 @@ import axios from "axios";
 import Layout from "./Layout";
 import { getAuthToken } from "../services/authService";
 
-const API_URL = "http://localhost:5001"; // Sesuaikan port
+const API_URL = "https://jmk-sales-backend-production.up.railway.app"; // Sesuaikan port
 
 export default function SuperAdminPanel() {
   const [users, setUsers] = useState([]);
@@ -157,4 +157,5 @@ export default function SuperAdminPanel() {
       </div>
     </Layout>
   );
+
 }
