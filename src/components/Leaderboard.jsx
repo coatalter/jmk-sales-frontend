@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { fetchLeaderboard } from "../services/leadsService";
+import { useCall } from "../context/CallContext"; // <--- 1. Import Context
 
 export default function Leaderboard() {
   const [leaders, setLeaders] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // 2. Ambil signal refresh global
+  const { refreshSignal } = useCall(); 
+
   useEffect(() => {
     const load = async () => {
+      // Kita bisa buat loading silent (tanpa spinner penuh) jika ini refresh ulang
+      // Tapi untuk sekarang biarkan default
       try {
         const data = await fetchLeaderboard();
-        // FIX: Pastikan data selalu Array biar gak crash saat .slice()
         const safeData = Array.isArray(data) ? data : []; 
         setLeaders(safeData);
       } catch (err) {
@@ -19,10 +24,13 @@ export default function Leaderboard() {
       }
     };
     
-    load();
+    load(); 
+    
     const interval = setInterval(load, 15000); 
+    
     return () => clearInterval(interval);
-  }, []);
+
+  }, [refreshSignal]); 
 
   // --- LOGIC STYLE (Tetap pertahankan warna Juara karena itu identitas) ---
   const getRankStyle = (index) => {
@@ -54,13 +62,12 @@ export default function Leaderboard() {
     return { 
       container: "bg-transparent border-transparent hover:bg-slate-100 dark:hover:bg-slate-800", 
       iconColor: "text-muted font-bold opacity-50", 
-      ptsColor: "text-main", // FIX: Ikut warna text utama
+      ptsColor: "text-main", 
       icon: `#${index + 1}` 
     };
   };
 
   return (
-    // Gunakan 'card' dari index.css
     <div className="card h-full flex flex-col relative overflow-hidden">
       
       {/* Header */}
@@ -94,7 +101,6 @@ export default function Leaderboard() {
           </div>
         )}
 
-        {/* FIX: Tambahkan '?' (Optional Chaining) sebelum .slice */}
         {leaders?.slice(0, 10).map((leader, index) => {
           const style = getRankStyle(index);
           
@@ -131,7 +137,6 @@ export default function Leaderboard() {
               {/* Points Badge */}
               <div className="text-right">
                 <div className="flex flex-col items-end">
-                   {/* FIX: Warna Text Score ikut Logic Style (bukan hardcode indigo) */}
                    <span className={`font-extrabold text-sm ${style.ptsColor}`}>
                      {leader.score}
                    </span>
