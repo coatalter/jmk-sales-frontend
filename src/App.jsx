@@ -1,38 +1,41 @@
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom"; // Hapus Router di sini jika sudah ada di main.jsx
 import Login from "./components/Login";
 import SalesDashboard from "./components/SalesDashboard";
+import CustomerDetail from "./components/CustomerDetail";
 import SuperAdminPanel from "./components/SuperAdminPanel";
-// 1. IMPORT COMPONENT BARU (Nanti kita buat)
-import CustomerDetail from "./components/CustomerDetail"; 
 import ProtectedRoute from "./components/ProtectedRoute";
+import { CallProvider } from "./context/CallContext"; 
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      
-      {/* Route Sales */}
-      <Route path="/sales" element={
-        <ProtectedRoute role="sales">
-          <SalesDashboard />
-        </ProtectedRoute>
-      } />
+    <CallProvider> 
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        
+        {/* Sales Routes */}
+        <Route path="/sales" element={
+          <ProtectedRoute role="sales">
+            <SalesDashboard />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/sales/customer/:id" element={
+          <ProtectedRoute role="sales">
+            <CustomerDetail />
+          </ProtectedRoute>
+        } />
 
-      {/* --- 2. TAMBAHKAN ROUTE DETAIL DISINI --- */}
-      <Route path="/sales/customer/:id" element={
-        <ProtectedRoute role="sales">
-          <CustomerDetail />
-        </ProtectedRoute>
-      } />
+        {/* Superadmin Routes */}
+        <Route path="/superadmin" element={
+          <ProtectedRoute role="superadmin">
+            <SuperAdminPanel />
+          </ProtectedRoute>
+        } />
 
-      <Route path="/superadmin" element={
-        <ProtectedRoute role="superadmin">
-          <SuperAdminPanel />
-        </ProtectedRoute>
-      } />
-
-      <Route path="/" element={<Navigate to="/login" replace />} />
-    </Routes>
+        {/* Redirect root to login for now */}
+        <Route path="/" element={<Login />} />
+      </Routes>
+    </CallProvider> // <--- TUTUP DI SINI
   );
 }
