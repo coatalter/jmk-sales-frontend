@@ -1,48 +1,16 @@
-# ⚛️ JMK Sales Frontend (Client)
+# React + Vite
 
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-> **Antarmuka pengguna (UI) modern untuk JMK Sales Dashboard.**
+Currently, two official plugins are available:
 
-Aplikasi klien ini dibangun menggunakan React (Vite) untuk memberikan pengalaman manajemen prospek yang responsif, interaktif, dan berbasis data real-time yang terhubung ke JMK Backend API.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
----
+## React Compiler
 
-## 🛠️ Stack & Libraries
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-Frontend ini menggunakan kumpulan teknologi modern untuk performa dan estetika.
+## Expanding the ESLint configuration
 
-### Core
-* **Framework:** React.js 18+ (via Vite)
-* **Routing:** React Router DOM v6
-* **State Management:** React Context API / Custom Hooks
-* **HTTP Client:** Axios (untuk komunikasi dengan Backend API)
-
-### UI & Styling
-* **Styling Engine:** Tailwind CSS
-* **Icons:** Lucide React
-* **Charts/Visualisasi:** Recharts (Pie & Bar charts)
-* **Components:** Headless UI / Custom Components
-
----
-
-## 📂 Struktur Direktori
-
-Berikut adalah struktur folder utama dalam aplikasi frontend ini:
-
-```text
-client/
-├── public/          # Aset statis (favicon, logo)
-├── src/
-│   ├── components/  # Komponen UI Reusable (Button, Card, Modal, Tables)
-│   ├── contexts/    # Global State (AuthContext untuk login, ThemeContext untuk dark mode)
-│   ├── hooks/       # Custom Hooks (useFetch, useAuth)
-│   ├── layouts/     # Layout utama (Sidebar, Header wrapper)
-│   ├── pages/       # Halaman aplikasi (Dashboard, Leads, Login, CustomerDetail)
-│   ├── services/    # Konfigurasi API & Axios endpoints
-│   ├── utils/       # Fungsi helper (formatter mata uang, tanggal)
-│   └── main.jsx     # Entry point React
-├── .env             # Variabel lingkungan (Environment Variables)
-└── tailwind.config.js # Konfigurasi Tailwind
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
