@@ -30,7 +30,7 @@ export const CallProvider = ({ children }) => {
         <CallInterface 
           customer={activeCustomer} 
           onClose={endCall}
-          onSave={triggerRefresh} 
+          onSave={triggerRefresh} // <--- Kirim trigger ke sini
         />
       )}
     </CallContext.Provider>
