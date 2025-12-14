@@ -14,6 +14,9 @@ import { fetchLeads, fetchLeadsStats } from "../services/leadsService";
 // IMPORT CONTEXT (UNTUK SINYAL REFRESH)
 import { useCall } from "../context/CallContext"; 
 
+// IMPORT EXPORT HELPER (NEW)
+import { exportToExcel } from "../utils/exportData";
+
 export default function SalesDashboard() {
   const [query, setQuery] = useState("");
   const [minScore, setMinScore] = useState(0);
@@ -146,17 +149,19 @@ export default function SalesDashboard() {
   const topLeads = customers.filter((c) => c.score >= 0.7).length;
   const convRate = customers.length > 0 ? `${Math.round((topLeads / customers.length) * 100)}%` : "0%";
 
+  // Handler Export
+  const handleExport = () => {
+    // Export data yang sedang dilihat user (filtered)
+    exportToExcel(filtered, "Laporan_Prospek_JMK");
+  };
+
   if (loading && customers.length === 0) {
     return <LoadingScreen />;
   }
 
   // --- HELPER STYLING TOMBOL STATUS (THEME BASED) ---
   const getStatusBtnClass = (s) => 
-    `px-4 py-2 text-sm font-bold rounded-full transition-all whitespace-nowrap border ${
-      statusFilter === s 
-      ? "btn-primary border-transparent shadow-lg transform scale-105" // Active: Primary Color
-      : "btn-ghost border-theme bg-card" // Inactive: Ikut tema card
-    }`;
+    `btn-filter ${statusFilter === s ? "active" : ""}`;
 
   return (
     <Layout>
@@ -165,13 +170,28 @@ export default function SalesDashboard() {
           <h1 className="text-2xl font-bold text-main">Dashboard Prospek</h1>
           <p className="text-muted text-sm mt-1">Kelola dan hubungi prospek prioritas tinggi.</p>
         </div>
-        <div className="w-full sm:w-72">
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="🔍 Cari nama atau pekerjaan..."
-            className="input-field"
-          />
+        
+        {/* ACTION AREA (SEARCH + EXPORT) */}
+        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+          
+          {/* TOMBOL EXPORT EXCEL */}
+          <button 
+            onClick={handleExport}
+            className="btn bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg flex items-center justify-center gap-2 transition-transform hover:-translate-y-0.5"
+            title="Download Laporan Excel"
+          >
+            <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 2l5 5h-5V4zM6 20V4h5v5h5v11H6z"/><path d="M12 16l-3-4h2V9h2v3h2z"/></svg>
+            Export Excel
+          </button>
+
+          <div className="w-full sm:w-72">
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="🔍 Cari nama atau pekerjaan..."
+              className="input-field"
+            />
+          </div>
         </div>
       </div>
 
@@ -184,11 +204,10 @@ export default function SalesDashboard() {
       <SalesCharts data={filtered.length > 0 ? filtered : customers} />
 
       {/* FILTER BUTTONS ROW */}
-      <div className="flex gap-2 mb-6 overflow-x-auto pb-2 scrollbar-hide">
+      <div className="flex gap-2 mb-6 overflow-x-auto p-2 scrollbar-hide">
          <button onClick={() => setStatusFilter("all")} className={getStatusBtnClass("all")}>All</button>
          <button onClick={() => setStatusFilter("new")} className={getStatusBtnClass("new")}>New</button>
          
-         {/* Tombol Follow Up */}
          <button onClick={() => setStatusFilter("in_progress")} className={getStatusBtnClass("in_progress")}>Follow Up</button>
          
          <button onClick={() => setStatusFilter("failed")} className={getStatusBtnClass("failed")}>Failed</button>
@@ -202,7 +221,6 @@ export default function SalesDashboard() {
           <div className="flex items-center justify-between mb-6 pb-4 border-b border-theme">
             <h3 className="font-bold text-main flex items-center gap-2">
               Daftar Prospek 
-              {/* Badge menggunakan class .badge-new agar warnanya dinamis */}
               <span className="badge-new ml-2 capitalize">
                 {statusFilter === 'in_progress' ? 'Follow Up' : statusFilter}
               </span>
@@ -235,13 +253,11 @@ export default function SalesDashboard() {
             <div>
               <div className="flex justify-between mb-2">
                 <label className="text-xs font-bold text-muted uppercase tracking-wide">Min Probability</label>
-                {/* Gunakan style inline dengan CSS Variable untuk warna dinamis */}
                 <span className="text-xs font-bold" style={{ color: "var(--brand-primary)" }}>
                   {Math.round(minScore * 100)}%
                 </span>
               </div>
               
-              {/* Slider menggunakan accent-color CSS property */}
               <input
                 type="range" min={0} max={1} step={0.01}
                 value={minScore}
