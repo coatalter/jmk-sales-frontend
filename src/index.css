@@ -4,30 +4,30 @@
    1. VARIABLES & THEME CONFIG
    ========================================= */
 @layer base {
-  /* --- MODE TERANG (SOFT / TIDAK TERLALU SILAU) --- */
+  /* --- MODE TERANG --- */
   :root {
     --brand-primary: #4f46e5;
     --brand-hover: #4338ca;
 
-    /* Backgrounds: Menggunakan Zinc Soft, bukan Putih Murni yang menyilaukan */
-    --bg-body: #e4e4e7;         /* Zinc-200: Abu lembut */
-    --bg-card: #f4f4f5;         /* Zinc-100: Off-white */
+    /* Backgrounds */
+    --bg-body: #e4e4e7;         /* Zinc-200 */
+    --bg-card: #f4f4f5;         /* Zinc-100 */
     --bg-sidebar: #f4f4f5;      /* Zinc-100 */
     --bg-input: #ffffff;        /* Putih */
     --bg-hover: #e4e4e7;        /* Zinc-200 */
     
-    /* Text (Zinc Palette) */
-    --text-main: #18181b;       /* Zinc-900: Hitam Soft */
-    --text-muted: #52525b;      /* Zinc-600: Abu Sedang */
+    /* Text */
+    --text-main: #18181b;       /* Zinc-900 */
+    --text-muted: #52525b;      /* Zinc-600 */
     --text-inverse: #ffffff;    /* Putih */
     
     /* Borders */
     --border-color: #d4d4d8;    /* Zinc-300 */
   }
 
-  /* --- MODE GELAP (ZINC THEME) --- */
+  /* --- MODE GELAP --- */
   html.dark {
-    /* Backgrounds (Zinc Palette) */
+    /* Backgrounds */
     --bg-body: #09090b;         /* Zinc-950 */
     --bg-card: #18181b;         /* Zinc-900 */
     --bg-sidebar: #18181b;      /* Zinc-900 */
@@ -121,27 +121,61 @@
   }
   html.dark select { color-scheme: dark; }
 
-/* --- BUTTONS --- */
+  /* Custom Select Arrow */
+  select.input-field {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+  }
+
+  /* Custom Range Slider */
+  input[type=range] {
+    -webkit-appearance: none; 
+    width: 100%;
+    background: transparent;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background: var(--brand-primary);
+    cursor: pointer;
+    margin-top: -7px; 
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+    transition: transform 0.1s;
+  }
+  input[type=range]:active::-webkit-slider-thumb { transform: scale(1.1); }
+  input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 4px;
+    cursor: pointer;
+    background: var(--border-color);
+    border-radius: 2px;
+  }
+
+  /* --- BUTTONS --- */
   .btn { 
     @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg font-medium text-sm transition-all active:scale-[0.98] cursor-pointer; 
   }
   
-  /* 1. BUTTON PRIMARY (Solid Brand Color) */
-  /* Digunakan untuk: Tombol 'Deal', 'Salin', Filter Aktif */
+  /* 1. BUTTON PRIMARY */
   .btn-primary {
-    color: #ffffff; /* Selalu putih agar kontras */
+    color: #ffffff;
     background: linear-gradient(to bottom right, var(--brand-primary), var(--brand-hover));
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     border: 1px solid transparent;
   }
   .btn-primary:hover { 
     filter: brightness(110%); 
-    box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3); /* Shadow ungu halus */
+    box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
     transform: translateY(-1px);
   }
   
-  /* 2. BUTTON GHOST (Transparent / Outline) */
-  /* Digunakan untuk: Tombol 'Batal', 'Reset Filter', Filter Non-Aktif */
+  /* 2. BUTTON GHOST */
   .btn-ghost {
     color: var(--text-muted);
     background-color: transparent;
@@ -153,29 +187,23 @@
     border-color: var(--border-color);
   }
 
-  /* 3. BUTTON SOFT (Semi-Transparent Badge Style) */
-  /* Digunakan untuk: Tombol 'Hubungi' (Call Action) */
+  /* 3. BUTTON SOFT */
   .btn-soft {
-    /* Mode Terang: Ungu pudar */
     background-color: rgba(79, 70, 229, 0.08); 
     color: var(--brand-primary);
     border: 1px solid rgba(79, 70, 229, 0.1);
-    font-weight: 700; /* Lebih tebal agar terbaca */
+    font-weight: 700;
   }
-  
   .btn-soft:hover {
-    /* Hover: Menjadi Solid agar mencolok */
     background-color: var(--brand-primary);
     color: #ffffff;
     border-color: var(--brand-primary);
     box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
     transform: translateY(-1px);
   }
-
-  /* Penyesuaian Otomatis Dark Mode untuk Btn-Soft */
   html.dark .btn-soft {
-    background-color: rgba(99, 102, 241, 0.15); /* Lebih terang dikit di dark mode */
-    color: #a5b4fc; /* Indigo-300 */
+    background-color: rgba(99, 102, 241, 0.15); 
+    color: #a5b4fc; 
     border-color: rgba(99, 102, 241, 0.2);
   }
   html.dark .btn-soft:hover {
@@ -183,9 +211,30 @@
     color: #ffffff;
   }
   
-  /* Helper Size */
-  .btn-small { 
-    @apply text-xs px-3 py-1.5 rounded-md; 
+  .btn-small { @apply text-xs px-3 py-1.5 rounded-md; }
+
+  /* 4. FILTER BUTTONS */
+  .btn-filter {
+    background-color: var(--bg-card);     
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    @apply inline-flex items-center justify-center px-5 py-2 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer select-none whitespace-nowrap;
+  }
+  .btn-filter:hover {
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+    background-color: var(--bg-hover);
+    transform: translateY(-1px);
+  }
+  .btn-filter.active {
+    background: linear-gradient(135deg, var(--brand-primary), var(--brand-hover));
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    transform: scale(1.05);
+  }
+  html.dark .btn-filter.active {
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.5);
   }
 
   /* --- TABLES --- */
@@ -233,57 +282,43 @@
     @apply w-9 h-9 flex items-center justify-center rounded-lg text-sm font-bold shadow-md z-10;
   }
 
-  /* --- BADGES & PROGRESS BAR --- */
-  .badge-new { 
-    @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border shadow-sm;
-    background-color: rgba(59, 130, 246, 0.1);     
-    color: rgb(37, 99, 235);                        
-    border-color: rgba(59, 130, 246, 0.2);
-  }
-  html.dark .badge-new { 
-    background-color: rgba(59, 130, 246, 0.2);
-    color: #93c5fd;                                 
-    border-color: rgba(59, 130, 246, 0.4);
-  }
+  /* --- BADGES --- */
+  .badge-new { background-color: rgba(59, 130, 246, 0.1); color: rgb(37, 99, 235); border: 1px solid rgba(59, 130, 246, 0.2); }
+  html.dark .badge-new { background-color: rgba(59, 130, 246, 0.2); color: #93c5fd; border-color: rgba(59, 130, 246, 0.4); }
 
-  .badge-success { 
-    @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border shadow-sm;
-    background-color: rgba(16, 185, 129, 0.1);      
-    color: rgb(5, 150, 105);                         
-    border-color: rgba(16, 185, 129, 0.2);
-  }
-  html.dark .badge-success { 
-    background-color: rgba(16, 185, 129, 0.2);
-    color: #6ee7b7;                                  
-    border-color: rgba(16, 185, 129, 0.4);
-  }
+  .badge-success { background-color: rgba(16, 185, 129, 0.1); color: rgb(5, 150, 105); border: 1px solid rgba(16, 185, 129, 0.2); }
+  html.dark .badge-success { background-color: rgba(16, 185, 129, 0.2); color: #6ee7b7; border-color: rgba(16, 185, 129, 0.4); }
 
-  .badge-failed { 
-    @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border shadow-sm;
-    background-color: rgba(244, 63, 94, 0.1);       
-    color: rgb(190, 18, 60);                         
-    border-color: rgba(244, 63, 94, 0.2);
-  }
-  html.dark .badge-failed { 
-    background-color: rgba(244, 63, 94, 0.2);
-    color: #fecdd3;                                  
-    border-color: rgba(244, 63, 94, 0.4);
-  }
+  .badge-failed { background-color: rgba(244, 63, 94, 0.1); color: rgb(190, 18, 60); border: 1px solid rgba(244, 63, 94, 0.2); }
+  html.dark .badge-failed { background-color: rgba(244, 63, 94, 0.2); color: #fecdd3; border-color: rgba(244, 63, 94, 0.4); }
 
-  .badge-progress { 
-    @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border shadow-sm;
-    background-color: rgba(245, 158, 11, 0.1);      
-    color: rgb(217, 119, 6);                         
-    border-color: rgba(245, 158, 11, 0.2);
-  }
-  html.dark .badge-progress { 
-    background-color: rgba(245, 158, 11, 0.2);
-    color: #fcd34d;                                  
-    border-color: rgba(245, 158, 11, 0.4);
+  .badge-progress { background-color: rgba(245, 158, 11, 0.1); color: rgb(217, 119, 6); border: 1px solid rgba(245, 158, 11, 0.2); }
+  html.dark .badge-progress { background-color: rgba(245, 158, 11, 0.2); color: #fcd34d; border-color: rgba(245, 158, 11, 0.4); }
+
+  .badge-new, .badge-success, .badge-failed, .badge-progress {
+    @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm whitespace-nowrap;
   }
 
   .progress-track { background-color: var(--bg-hover); @apply w-full rounded-full h-2 overflow-hidden shadow-inner; }
   .progress-fill { background: linear-gradient(90deg, #6366f1, #8b5cf6); @apply h-full rounded-full transition-all duration-700 ease-out; }
+
+  /* --- CONTACT CHOICES --- */
+  .contact-choice {
+    @apply flex-1 py-3 px-4 rounded-xl text-sm font-medium transition-all text-center focus:outline-none cursor-pointer flex items-center justify-center;
+  }
+  .contact-choice.border { 
+    background-color: var(--bg-input); border: 2px solid var(--border-color); color: var(--text-muted); 
+  }
+  html.dark .contact-choice.border:hover { border-color: #6366f1; color: #fff; }
+
+  .contact-choice-success { @apply border-2 border-emerald-500 bg-emerald-50 text-emerald-700 shadow-sm; }
+  html.dark .contact-choice-success { @apply bg-emerald-900/30 text-emerald-300 border-emerald-500; }
+
+  .contact-choice-failed { @apply border-2 border-rose-500 bg-rose-50 text-rose-700 shadow-sm; }
+  html.dark .contact-choice-failed { @apply bg-rose-900/30 text-rose-300 border-rose-500; }
+
+  .contact-choice-progress { @apply border-2 border-amber-400 bg-amber-50 text-amber-700 shadow-sm; }
+  html.dark .contact-choice-progress { @apply bg-amber-900/30 text-amber-300 border-amber-500; }
 
   /* --- MODAL --- */
   .modal-backdrop {
@@ -298,231 +333,209 @@
     animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .modal-header { border-bottom: 1px solid var(--border-color); @apply p-6 flex justify-between items-start; }
-
-  /* --- CHOICES --- */
-  .contact-choice.border { 
-    background-color: var(--bg-input); border: 2px solid var(--border-color); color: var(--text-muted);
-    @apply flex-1 py-3 px-4 rounded-xl text-sm font-medium transition-all text-center focus:outline-none cursor-pointer hover:border-indigo-300;
+  
+  /* --- SCRIPT BRANCHING STYLES --- */
+  .call-script-bubble {
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--brand-primary);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    @apply p-6 mb-6 rounded-xl relative transition-colors;
   }
-  html.dark .contact-choice.border:hover { border-color: #6366f1; color: #fff; }
-
-  .contact-choice-new { 
-    @apply flex-1 py-3 px-4 rounded-xl border-2 text-sm font-medium transition-all text-center 
-           focus:outline-none cursor-pointer border-blue-500 bg-blue-50 text-blue-700 shadow-sm;
+  .call-script-text {
+    color: var(--text-main);
+    @apply text-lg leading-relaxed font-medium;
   }
-  html.dark .contact-choice-new { 
-    @apply bg-blue-900/30 text-blue-300 border-blue-500;
+  
+  /* FIX: Hapus group dari @apply, tangani hover manual */
+  .call-script-btn {
+    background-color: var(--bg-hover);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    @apply w-full text-left p-4 rounded-xl transition-all flex justify-between items-center cursor-pointer mb-2;
   }
-
-  .contact-choice-success { 
-    @apply flex-1 py-3 px-4 rounded-xl border-2 text-sm font-medium transition-all text-center 
-           focus:outline-none cursor-pointer border-emerald-500 bg-emerald-50 text-emerald-700 shadow-sm;
+  .call-script-btn:hover {
+    border-color: var(--brand-primary);
+    background-color: rgba(79, 70, 229, 0.05); 
+    transform: translateX(4px);
   }
-  html.dark .contact-choice-success {
-    @apply bg-emerald-900/30 text-emerald-300 border-emerald-500;
+  .call-script-btn-label { @apply font-bold transition-colors; }
+  .call-script-btn:hover .call-script-btn-label { color: var(--brand-primary); }
+  
+  /* Hover effect untuk panah di dalam tombol script */
+  .call-script-btn span.text-muted {
+    transition: transform 0.2s;
   }
-
-  .contact-choice-failed { 
-    @apply flex-1 py-3 px-4 rounded-xl border-2 text-sm font-medium transition-all text-center 
-           focus:outline-none cursor-pointer border-rose-500 bg-rose-50 text-rose-700 shadow-sm;
+  .call-script-btn:hover span.text-muted {
+    transform: translateX(4px);
+    color: var(--brand-primary);
   }
-  html.dark .contact-choice-failed {
-    @apply bg-rose-900/30 text-rose-300 border-rose-500;
+  
+  .call-script-end {
+    background-color: rgba(16, 185, 129, 0.1); 
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #047857;
+    @apply text-center p-6 rounded-xl;
   }
-
-  .contact-choice-progress { 
-    @apply flex-1 py-3 px-4 rounded-xl border-2 text-sm font-medium transition-all text-center 
-           focus:outline-none cursor-pointer border-amber-400 bg-amber-50 text-amber-700 shadow-sm;
+  html.dark .call-script-end {
+    background-color: rgba(6, 78, 59, 0.4); 
+    color: #34d399;
   }
-  html.dark .contact-choice-progress {
-    @apply bg-amber-900/30 text-amber-300 border-amber-500;
+  .call-step-badge {
+    background-color: var(--bg-hover);
+    color: var(--text-muted);
+    @apply text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded;
   }
+}
 
 /* =========================================
    3. ANIMATIONS
    ========================================= */
-@keyframes indeterminate {
-  0% { left: -50%; }
-  50% { left: 50%; }
-  100% { left: 100%; }
-}
+@keyframes indeterminate { 0% { left: -50%; } 50% { left: 50%; } 100% { left: 100%; } }
+.animate-indeterminate { animation: indeterminate 1.5s infinite linear; }
 
-.animate-indeterminate {
-  animation: indeterminate 1.5s infinite linear;
-}
+.animate-fade-in { animation: fadeIn 0.5s ease-in-out; }
+.animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
 
-/* Class ini tetap bisa dipakai di HTML jika mau */
-.animate-fade-in {
-  animation: fadeIn 0.5s ease-in-out;
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideUp { 
-  from { opacity: 0; transform: translateY(15px) scale(0.98); } 
-  to { opacity: 1; transform: translateY(0) scale(1); } 
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 20px, 0);
-  }
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(15px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes fadeInUp { from { opacity: 0; transform: translate3d(0, 20px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
 
 
 /* =========================================
-     4. CALL INTERFACE (Clean Theme Based)
-     ========================================= */
+   4. CALL INTERFACE (MODERN GLASSMORPHISM)
+   ========================================= */
 
-  /* --- Container Utama --- */
-  .call-window {
-    /* Gunakan variabel background dengan sedikit transparansi untuk efek glass */
-    background-color: var(--bg-card); 
-    border: 1px solid var(--border-color);
-    
-    /* Bayangan halus */
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    
-    /* Layout & Animasi */
-    @apply fixed bottom-6 right-6 z-[9999] w-[95vw] md:w-[900px] h-[650px] rounded-2xl flex flex-col overflow-hidden transition-colors duration-300;
-    
-    /* Tambahan backdrop blur manual jika browser support */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    
-    /* Animasi masuk */
-    animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-  
-  /* Override transparansi khusus dark mode via CSS nesting */
-  html.dark .call-window {
-    background-color: rgba(24, 24, 27, 0.9); /* Zinc-900 agak transparan */
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-  }
+/* Container Utama */
+.call-window {
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0,0,0,0.02);
+  @apply fixed bottom-6 right-6 z-[9999] w-[95vw] md:w-[900px] h-[650px] rounded-2xl flex flex-col overflow-hidden transition-all duration-300;
+  animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+html.dark .call-window {
+  background-color: rgba(24, 24, 27, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+}
 
-  /* --- Container Minimized --- */
-  .call-window-minimized {
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
-    @apply fixed bottom-6 right-6 z-[9999] w-80 rounded-2xl shadow-xl flex items-center justify-between p-4 cursor-pointer transition-all duration-300;
-    animation: slideUp 0.4s ease-out forwards;
-  }
-  .call-window-minimized:hover {
-    background-color: var(--bg-hover);
-    transform: translateY(-4px);
-  }
+/* Container Minimized */
+/* FIX: Hapus 'group' dari @apply */
+.call-window-minimized {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  @apply fixed bottom-6 right-6 z-[9999] w-80 rounded-2xl shadow-xl flex items-center justify-between p-4 cursor-pointer transition-all duration-300;
+  animation: slideUp 0.4s ease-out forwards;
+}
+.call-window-minimized:hover {
+  transform: translateY(-4px);
+  background-color: var(--bg-hover);
+}
 
-  /* --- Header --- */
-  .call-header {
-    background-color: var(--bg-hover); /* Sedikit beda dari body card */
-    border-bottom: 1px solid var(--border-color);
-    @apply h-16 flex items-center justify-between px-6 select-none;
-  }
+/* HEADER modern */
+.call-header {
+  background: transparent;
+  border-bottom: 1px solid var(--border-color);
+  @apply h-16 flex items-center justify-between px-6 select-none;
+}
 
-  .call-avatar-lg {
-    @apply w-10 h-10 rounded-xl flex items-center justify-center font-bold text-white text-lg shadow-lg;
-    /* Gradient Brand */
-    background: linear-gradient(135deg, var(--brand-primary) 0%, #a5b4fc 100%);
-  }
+.call-avatar-lg {
+  @apply w-10 h-10 rounded-xl flex items-center justify-center font-bold text-white text-lg shadow-lg;
+  background: linear-gradient(135deg, var(--brand-primary) 0%, #a5b4fc 100%);
+}
 
-  .call-timer-pill {
-    background-color: var(--bg-input); /* Putih di light, gelap di dark */
-    border: 1px solid var(--border-color);
-    @apply px-4 py-1.5 rounded-full shadow-inner;
-  }
-  .call-timer-text {
-    color: var(--brand-primary);
-    @apply font-mono font-bold text-sm tracking-widest;
-  }
+.call-timer-pill {
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-color);
+  @apply px-4 py-1.5 rounded-full shadow-inner;
+}
+.call-timer-text {
+  color: var(--brand-primary);
+  @apply font-mono font-bold text-sm tracking-widest;
+}
 
-  /* --- Layout Kolom --- */
-  .call-col-left {
-    background-color: var(--bg-card);
-    border-right: 1px solid var(--border-color);
-    @apply w-7/12 flex flex-col relative;
-  }
-  .call-col-right {
-    background-color: rgba(128, 128, 128, 0.05); /* Sedikit tint */
-    @apply w-5/12 flex flex-col;
-  }
+/* Layout Kolom */
+.call-col-left {
+  background-color: var(--bg-card);
+  border-right: 1px solid var(--border-color);
+  @apply w-7/12 flex flex-col relative;
+}
+.call-col-right {
+  background-color: rgba(249, 250, 251, 1);
+  @apply w-5/12 flex flex-col;
+}
+html.dark .call-col-right {
+  background-color: rgba(0, 0, 0, 0.2); 
+}
 
-  /* --- Tabs --- */
-  .call-tab-btn {
-    color: var(--text-muted);
-    @apply flex-1 py-4 text-[11px] font-bold uppercase tracking-widest transition-all relative opacity-70;
-  }
-  .call-tab-btn:hover { opacity: 1; color: var(--text-main); }
-  .call-tab-btn.active { opacity: 1; color: var(--brand-primary); }
-  .call-tab-btn.active::after {
-    content: ""; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px;
-    background-color: var(--brand-primary);
-  }
+/* Tabs */
+.call-tab-btn {
+  color: var(--text-muted);
+  @apply flex-1 py-4 text-[11px] font-bold uppercase tracking-widest transition-all relative opacity-70;
+}
+.call-tab-btn:hover { opacity: 1; color: var(--text-main); }
+.call-tab-btn.active { opacity: 1; color: var(--brand-primary); }
+.call-tab-btn.active::after {
+  content: ""; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px;
+  background-color: var(--brand-primary);
+}
 
-  /* --- Cards (Script & Info) --- */
-  .call-card-glass {
-    background-color: var(--bg-hover); /* Menggunakan bg-hover (Zinc-200 / Zinc-800) */
-    border: 1px solid var(--border-color);
-    @apply p-5 rounded-xl shadow-sm transition-colors mb-4;
-  }
-  /* Heading kecil di dalam card */
-  .call-card-label {
-    color: var(--brand-primary);
-    @apply text-[10px] font-bold uppercase mb-2 tracking-wider;
-  }
-  /* Isi text di dalam card */
-  .call-card-text {
-    color: var(--text-main);
-    @apply text-sm font-medium leading-relaxed;
-  }
+/* Cards Script */
+.call-card-glass {
+  background-color: var(--bg-input); 
+  border: 1px solid var(--border-color);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  @apply p-5 rounded-xl transition-all duration-200 mb-4 hover:shadow-md;
+}
+.call-card-label {
+  color: var(--brand-primary);
+  @apply text-[10px] font-extrabold uppercase mb-2 tracking-widest opacity-80;
+}
+.call-card-text {
+  color: var(--text-main);
+  @apply text-sm leading-relaxed;
+}
 
-  /* --- Notepad --- */
-  .call-notepad-header {
-    border-bottom: 1px solid var(--border-color);
-    @apply p-3 px-5 flex justify-between items-center text-[10px] font-bold uppercase tracking-wide opacity-80;
-    background-color: rgba(234, 179, 8, 0.1); /* Kuning tipis transparan */
-    color: #ca8a04; /* Text kuning gelap */
-  }
-  html.dark .call-notepad-header { color: #facc15; } /* Kuning terang di dark mode */
-  
-  .call-textarea {
-    color: var(--text-main);
-    @apply flex-1 bg-transparent p-5 resize-none focus:outline-none font-mono text-sm leading-6;
-  }
+/* Notepad */
+.call-notepad-header {
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  @apply p-4 flex justify-between items-center text-[10px] font-bold uppercase tracking-wide;
+  background-color: #fef9c3; color: #854d0e;
+}
+html.dark .call-notepad-header {
+  background-color: #422006; color: #fde047;
+}
 
-/* --- Footer & Actions --- */
-  .call-footer {
-    background-color: var(--bg-sidebar); 
-    border-top: 1px solid var(--border-color);
-    @apply h-20 flex items-center justify-center gap-6;
-  }
+.call-textarea {
+  color: var(--text-main);
+  @apply flex-1 bg-transparent p-5 resize-none focus:outline-none font-mono text-sm leading-6;
+}
 
-  .btn-action { 
-    @apply py-3 rounded-xl text-white font-bold text-xs shadow transition-transform active:scale-95 flex items-center justify-center gap-2 hover:opacity-90; 
-  }
-  
-  .control-icon { 
-    background-color: var(--bg-hover);
-    color: var(--text-muted);
-    /* HAPUS 'hover:text-main' dari @apply di bawah ini */
-    @apply w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110 active:scale-90; 
-  }
+/* Footer */
+.call-footer {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  background-color: #18181b; 
+  color: #ffffff;
+  border-radius: 9999px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+  @apply h-16 flex items-center justify-center gap-4 px-8;
+}
 
-  /* TAMBAHKAN INI: Logic hover manual menggunakan variable CSS */
-  .control-icon:hover {
-    color: var(--text-main);
-  }
+.btn-action { 
+  @apply py-3 rounded-xl text-white font-bold text-xs shadow transition-transform active:scale-95 flex items-center justify-center gap-2 hover:opacity-90; 
+}
 
-
+.control-icon { 
+  background-color: rgba(255,255,255,0.1);
+  color: #a1a1aa;
+  @apply w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110 active:scale-90; 
+}
+.control-icon:hover {
+  background-color: rgba(255,255,255,0.2);
+  color: #ffffff;
 }
